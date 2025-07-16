@@ -58,7 +58,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Views\PessoaView.xaml">
+    <Page Include="Views\PessoaFormView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PessoaListView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -67,15 +71,20 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\CpfMaskConverter.cs" />
     <Compile Include="Models\BrasilApi\Endereco.cs" />
     <Compile Include="Models\BrasilApi\Estado.cs" />
     <Compile Include="Models\BrasilApi\Municipio.cs" />
     <Compile Include="Services\BrasilApiService.cs" />
     <Compile Include="Services\PessoaService.cs" />
-    <Compile Include="ViewModels\PessoaViewModel.cs" />
-    <Compile Include="Views\PessoaView.xaml.cs">
-      <DependentUpon>PessoaView.xaml</DependentUpon>
+    <Compile Include="ViewModels\PessoaFormViewModel.cs" />
+    <Compile Include="ViewModels\PessoaListViewModel.cs" />
+    <Compile Include="Views\PessoaFormView.xaml.cs">
+      <DependentUpon>PessoaFormView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PessoaListView.xaml.cs">
+      <DependentUpon>PessoaListView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

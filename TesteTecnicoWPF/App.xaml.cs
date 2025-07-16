@@ -1,42 +1,51 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using TesteTecnicoWPF.Models;
 using TesteTecnicoWPF.Services;
 using TesteTecnicoWPF.ViewModels;
 using TesteTecnicoWPF.Views;
+using System.Collections.Generic;
 
 namespace TesteTecnicoWPF
 {
     public partial class App : Application
     {
         private PessoaService _pessoaService;
-        private PessoaViewModel _pessoaViewModel;
+        private PessoaListViewModel _pessoaListViewModel;
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
-            // 1. Inicializa os serviços e o ViewModel
             _pessoaService = new PessoaService();
-            _pessoaViewModel = new PessoaViewModel();
+            _pessoaListViewModel = new PessoaListViewModel();
 
-            // 2. Carrega os dados salvos para o ViewModel
             var pessoasSalvas = _pessoaService.CarregarPessoas();
-            foreach (var pessoa in pessoasSalvas)
+            if (pessoasSalvas != null)
             {
-                (_pessoaViewModel.PessoasView.SourceCollection as ObservableCollection<Pessoa>)?.Add(pessoa);
+                // Acesso à coleção interna do ViewModel para popular os dados
+                var colecaoInterna = _pessoaListViewModel.PessoasView.SourceCollection as ObservableCollection<Pessoa>;
+                if (colecaoInterna != null)
+                {
+                    foreach (var pessoa in pessoasSalvas)
+                    {
+                        colecaoInterna.Add(pessoa);
+                    }
+                }
             }
 
-            // 3. Cria a View principal e injeta o ViewModel nela
-            var mainWindow = new PessoaView(_pessoaViewModel);
+            var mainWindow = new PessoaListView(_pessoaListViewModel);
             mainWindow.Show();
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
-            // Salva os dados do ViewModel no arquivo ao fechar a aplicação
-            _pessoaService.SalvarPessoas(_pessoaViewModel.PessoasView.SourceCollection as IEnumerable<Pessoa>);
+            // Acesso à coleção interna para salvar os dados
+            var colecaoParaSalvar = _pessoaListViewModel.PessoasView.SourceCollection as IEnumerable<Pessoa>;
+            if (colecaoParaSalvar != null)
+            {
+                _pessoaService.SalvarPessoas(colecaoParaSalvar);
+            }
 
             base.OnExit(e);
         }

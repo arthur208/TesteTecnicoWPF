@@ -13,8 +13,8 @@ namespace TesteTecnicoWPF.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private Guid _id;
-        public Guid Id
+        private int _id;
+        public int Id
         {
             get { return _id; }
             set { _id = value; OnPropertyChanged(); }
@@ -104,7 +104,12 @@ namespace TesteTecnicoWPF.Models
 
         public Pessoa()
         {
-            Id = Guid.NewGuid();
+          
+        }
+
+         public Pessoa Clone()
+        {
+            return (Pessoa)this.MemberwiseClone();
         }
     }
 }
