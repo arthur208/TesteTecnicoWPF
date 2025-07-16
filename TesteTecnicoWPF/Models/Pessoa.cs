@@ -1,48 +1,110 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions; // Adicionado para usar Regex
 
 namespace TesteTecnicoWPF.Models
 {
-    /// <summary>
-    /// Representa a entidade Pessoa com seus dados cadastrais.
-    /// </summary>
-    public class Pessoa
+    public class Pessoa : INotifyPropertyChanged
     {
-        // Identificador único da pessoa.
-        public Guid Id { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
-        // Nome completo da pessoa.
-        public string Nome { get; set; }
+        private Guid _id;
+        public Guid Id
+        {
+            get { return _id; }
+            set { _id = value; OnPropertyChanged(); }
+        }
 
-        // CPF da pessoa.
-        public string CPF { get; set; }
+        private string _nome;
+        public string Nome
+        {
+            get { return _nome; }
+            set { _nome = value; OnPropertyChanged(); }
+        }
 
-        // CEP do endereço.
-        public string CEP { get; set; }
+        private string _cpf;
+        public string CPF
+        {
+            get { return _cpf; }
+            set
+            {
+                // === NOVA LÓGICA DE MÁSCARA DE CPF ===
+                // 1. Pega apenas os números do valor digitado
+                var numbersOnly = Regex.Replace(value ?? "", @"[^\d]", "");
 
-        // Logradouro (Rua, Avenida, etc.).
-        public string Logradouro { get; set; }
+                if (numbersOnly.Length > 11) numbersOnly = numbersOnly.Substring(0, 11);
+                _cpf = numbersOnly;
+                OnPropertyChanged();
+            }
+        }
 
-        // Número do imóvel.
-        public string Numero { get; set; }
+        private string _cep;
+        public string CEP
+        {
+            get { return _cep; }
+            set
+            {
+                // === NOVA LÓGICA DE MÁSCARA DE CEP ===
+                // 1. Pega apenas os números
+                var numbersOnly = Regex.Replace(value ?? "", @"[^\d]", "");
+                if (numbersOnly.Length > 8) numbersOnly = numbersOnly.Substring(0, 8);
+                
 
-        // Bairro.
-        public string Bairro { get; set; }
+                _cep = numbersOnly;
+                OnPropertyChanged();
+            }
+        }
 
-        // Complemento do endereço (Apto, Bloco, etc.).
-        public string Complemento { get; set; }
+        private string _logradouro;
+        public string Logradouro
+        {
+            get { return _logradouro; }
+            set { _logradouro = value; OnPropertyChanged(); }
+        }
 
-        // Cidade.
-        public string Cidade { get; set; }
+        private string _numero;
+        public string Numero
+        {
+            get { return _numero; }
+            set { _numero = value; OnPropertyChanged(); }
+        }
 
-        // Estado (UF).
-        public string Estado { get; set; }
+        private string _bairro;
+        public string Bairro
+        {
+            get { return _bairro; }
+            set { _bairro = value; OnPropertyChanged(); }
+        }
 
-        /// <summary>
-        /// Construtor padrão que gera um novo Id para cada instância.
-        /// </summary>
+        private string _complemento;
+        public string Complemento
+        {
+            get { return _complemento; }
+            set { _complemento = value; OnPropertyChanged(); }
+        }
+
+        private string _cidade;
+        public string Cidade
+        {
+            get { return _cidade; }
+            set { _cidade = value; OnPropertyChanged(); }
+        }
+
+        private string _estado;
+        public string Estado
+        {
+            get { return _estado; }
+            set { _estado = value; OnPropertyChanged(); }
+        }
+
         public Pessoa()
         {
-            Id = Guid.NewGuid(); // Garante que cada nova pessoa tenha um Id único.
+            Id = Guid.NewGuid();
         }
     }
 }
