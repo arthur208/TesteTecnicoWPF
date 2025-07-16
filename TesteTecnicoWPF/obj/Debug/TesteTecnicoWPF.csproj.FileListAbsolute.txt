@@ -1,0 +1,15 @@
+C:\Users\arthu\source\repos\TesteTecnicoWPF\TesteTecnicoWPF\obj\Debug\TesteTecnicoWPF.csproj.AssemblyReference.cache
+C:\Users\arthu\source\repos\TesteTecnicoWPF\TesteTecnicoWPF\obj\Debug\Views\PessoaView.g.cs
+C:\Users\arthu\source\repos\TesteTecnicoWPF\TesteTecnicoWPF\obj\Debug\App.g.cs
+C:\Users\arthu\source\repos\TesteTecnicoWPF\TesteTecnicoWPF\obj\Debug\TesteTecnicoWPF_MarkupCompile.cache
+C:\Users\arthu\source\repos\TesteTecnicoWPF\TesteTecnicoWPF\obj\Debug\TesteTecnicoWPF_MarkupCompile.lref
+C:\Users\arthu\source\repos\TesteTecnicoWPF\TesteTecnicoWPF\bin\Debug\TesteTecnicoWPF.exe.config
+C:\Users\arthu\source\repos\TesteTecnicoWPF\TesteTecnicoWPF\bin\Debug\TesteTecnicoWPF.exe
+C:\Users\arthu\source\repos\TesteTecnicoWPF\TesteTecnicoWPF\bin\Debug\TesteTecnicoWPF.pdb
+C:\Users\arthu\source\repos\TesteTecnicoWPF\TesteTecnicoWPF\obj\Debug\Views\PessoaView.baml
+C:\Users\arthu\source\repos\TesteTecnicoWPF\TesteTecnicoWPF\obj\Debug\TesteTecnicoWPF.g.resources
+C:\Users\arthu\source\repos\TesteTecnicoWPF\TesteTecnicoWPF\obj\Debug\TesteTecnicoWPF.Properties.Resources.resources
+C:\Users\arthu\source\repos\TesteTecnicoWPF\TesteTecnicoWPF\obj\Debug\TesteTecnicoWPF.csproj.GenerateResource.cache
+C:\Users\arthu\source\repos\TesteTecnicoWPF\TesteTecnicoWPF\obj\Debug\TesteTecnicoWPF.csproj.CoreCompileInputs.cache
+C:\Users\arthu\source\repos\TesteTecnicoWPF\TesteTecnicoWPF\obj\Debug\TesteTecnicoWPF.exe
+C:\Users\arthu\source\repos\TesteTecnicoWPF\TesteTecnicoWPF\obj\Debug\TesteTecnicoWPF.pdb
