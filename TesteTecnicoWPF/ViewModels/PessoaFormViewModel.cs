@@ -28,6 +28,13 @@ namespace TesteTecnicoWPF.ViewModels
         public ObservableCollection<Estado> Estados { get; set; }
         public ObservableCollection<Municipio> Municipios { get; set; }
 
+        private string _mensagemValidacaoCpf;
+        public string MensagemValidacaoCpf
+        {
+            get => _mensagemValidacaoCpf;
+            private set { _mensagemValidacaoCpf = value; OnPropertyChanged(); }
+        }
+
         private string _cpfErrorMessage;
 
         public string CpfErrorMessage
