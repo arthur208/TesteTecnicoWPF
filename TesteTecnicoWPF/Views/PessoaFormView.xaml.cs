@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 
 namespace TesteTecnicoWPF.Views
 {
@@ -7,6 +8,7 @@ namespace TesteTecnicoWPF.Views
         public PessoaFormView()
         {
             InitializeComponent();
+            Loaded += (sender, e) => MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
         }
     }
 }

@@ -3,6 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:TesteTecnicoWPF">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="PrimaryBrush" Color="#007ACC"/>
+            <SolidColorBrush x:Key="PrimaryForegroundBrush" Color="White"/>
+            <SolidColorBrush x:Key="AccentBrush" Color="#4CAF50"/>
+           
+            <Style TargetType="Button">
+                <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource PrimaryForegroundBrush}"/>
+                <Setter Property="Padding" Value="10,5"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#005A9E"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

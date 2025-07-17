@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -10,7 +11,10 @@ namespace TesteTecnicoWPF.ViewModels
     public class ProdutoFormViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public Produto ProdutoEmEdicao { get; set; }
 
@@ -21,7 +25,7 @@ namespace TesteTecnicoWPF.ViewModels
         {
             ProdutoEmEdicao = produto;
             SalvarCommand = new RelayCommand(Salvar);
-            CancelarCommand = new RelayCommand(Cancelar);
+            // O comando Cancelar não precisa de lógica, pois IsCancel=true na View já fecha o diálogo.
         }
 
         private void Salvar(object parameter)
@@ -35,19 +39,26 @@ namespace TesteTecnicoWPF.ViewModels
                 return;
             }
 
+            // Se a validação passar, fecha a janela com resultado "sucesso" (true)
             FecharJanela(parameter as Window, true);
         }
 
         private void Cancelar(object parameter)
         {
+            // O botão na View com IsCancel=true já cuida de fechar a janela.
+            // Este comando é um fallback ou pode ser removido se o botão não tiver Command binding.
             FecharJanela(parameter as Window, false);
         }
 
-        private void FecharJanela(Window window, bool dialogResult)
+        private void FecharJanela(Window window, bool? dialogResult)
         {
             if (window != null)
             {
-                window.DialogResult = dialogResult;
+                try
+                {
+                    window.DialogResult = dialogResult;
+                }
+                catch (InvalidOperationException) { /* Ignora o erro se não for um diálogo */ }
                 window.Close();
             }
         }

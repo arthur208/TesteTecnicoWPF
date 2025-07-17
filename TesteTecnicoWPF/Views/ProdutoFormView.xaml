@@ -4,32 +4,36 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TesteTecnicoWPF.Views"
-        xmlns:converters="clr-namespace:TesteTecnicoWPF.Converters"  mc:Ignorable="d"
         xmlns:behaviors="clr-namespace:TesteTecnicoWPF.Behaviors"
+        xmlns:converters="clr-namespace:TesteTecnicoWPF.Converters"
+        mc:Ignorable="d"
         Title="Cadastro de Produto" SizeToContent="Height" Width="350"
-        WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
-
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        FocusManager.FocusedElement="{Binding ElementName=txtNome}">
     <Window.Resources>
-        <converters:CpfMaskConverter x:Key="CpfMaskConverter"/>
-        <converters:CepMaskConverter x:Key="CepMaskConverter"/>
         <converters:CurrencyConverter x:Key="CurrencyConverter"/>
     </Window.Resources>
-    
-    <StackPanel Margin="15">
-        <Label Content="Nome*"/>
-        <TextBox Text="{Binding ProdutoEmEdicao.Nome, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Label Content="Código*"/>
-        <TextBox Text="{Binding ProdutoEmEdicao.Codigo, UpdateSourceTrigger=PropertyChanged}"/>
+    <Border BorderBrush="LightGray" BorderThickness="1" Margin="5">
+        <StackPanel Margin="15">
+            <Label Content="Nome*"/>
+            <TextBox x:Name="txtNome" Text="{Binding ProdutoEmEdicao.Nome, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Label Content="Valor*"/>
-        <TextBox Text="{Binding ProdutoEmEdicao.Valor, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" 
-         HorizontalContentAlignment="Right"
-         behaviors:CurrencyMaskBehavior.IsAttached="True"/> 
+            <Label Content="Código*" Margin="0,5,0,0"/>
+            <TextBox Text="{Binding ProdutoEmEdicao.Codigo, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <StackPanel Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Right">
-            <Button Content="Salvar" Width="80" Margin="0,0,5,0" IsDefault="True" Command="{Binding SalvarCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
-            <Button Content="Cancelar" Width="80" IsCancel="True"/>
+            <Label Content="Valor*" Margin="0,5,0,0"/>
+            <TextBox Text="{Binding ProdutoEmEdicao.Valor, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" 
+                     HorizontalContentAlignment="Right"
+                     behaviors:CurrencyMaskBehavior.IsAttached="True"/>
+
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Right">
+                <Button Content="Salvar" Width="80" Margin="0,0,5,0" IsDefault="True" 
+                        Command="{Binding SalvarCommand}" 
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+
+                <Button Content="Cancelar" Width="80" IsCancel="True"/>
+            </StackPanel>
         </StackPanel>
-    </StackPanel>
+    </Border>
 </Window>
