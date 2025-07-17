@@ -8,12 +8,17 @@ using System.Windows;
 using System.Windows.Input;
 using TesteTecnicoWPF.Commands;
 using TesteTecnicoWPF.Models;
+using TesteTecnicoWPF.Services;
 using TesteTecnicoWPF.Views;
 
 namespace TesteTecnicoWPF.ViewModels
 {
     public class PedidoFormViewModel : INotifyPropertyChanged
     {
+
+        private readonly PessoaService _pessoaService;
+        private readonly ProdutoService _produtoService;
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
@@ -29,6 +34,9 @@ namespace TesteTecnicoWPF.ViewModels
             get => _clienteSelecionado;
             set { _clienteSelecionado = value; OnPropertyChanged(); if (PedidoAtual != null) { PedidoAtual.PessoaId = value?.Id ?? 0; } }
         }
+
+        public ObservableCollection<Pessoa> Clientes { get; private set; }
+        public ObservableCollection<Produto> ProdutosDisponiveis { get; private set; }
 
         private Produto _produtoParaAdicionar;
         public Produto ProdutoParaAdicionar
@@ -53,12 +61,18 @@ namespace TesteTecnicoWPF.ViewModels
         public ICommand SalvarPedidoCommand { get; private set; }
         public ICommand CancelarCommand { get; private set; }
 
-        public PedidoFormViewModel(Pedido pedido, Action onFinishInTabCallback = null)
+
+
+        public PedidoFormViewModel(Pedido pedido, PessoaService pessoaService, ProdutoService produtoService, Action onFinishInTabCallback = null)
         {
             _onFinishInTabCallback = onFinishInTabCallback;
             IsDialogMode = _onFinishInTabCallback == null;
+            _pessoaService = pessoaService;
+            _produtoService = produtoService;
 
             PedidoAtual = pedido;
+
+            CarregarDadosIniciais();
             FormasDePagamento = new ObservableCollection<string> { "Dinheiro", "Cartão", "Boleto" };
 
             BuscarClienteCommand = new RelayCommand(BuscarCliente, p => !IsDialogMode);
@@ -67,6 +81,17 @@ namespace TesteTecnicoWPF.ViewModels
             RemoverProdutoCommand = new RelayCommand(RemoverProduto);
             SalvarPedidoCommand = new RelayCommand(SalvarPedido);
             CancelarCommand = new RelayCommand(Cancelar);
+        }
+
+        private void CarregarDadosIniciais()
+        {
+            // Pede ao serviço para LER o arquivo de pessoas e cria a coleção
+            var pessoas = _pessoaService.CarregarPessoas();
+            Clientes = new ObservableCollection<Pessoa>(pessoas);
+
+            // Pede ao serviço para LER o arquivo de produtos e cria a coleção
+            var produtos = _produtoService.CarregarProdutos();
+            ProdutosDisponiveis = new ObservableCollection<Produto>(produtos);
         }
 
         private void SalvarPedido(object parameter)
@@ -140,7 +165,7 @@ namespace TesteTecnicoWPF.ViewModels
 
         private void BuscarCliente(object obj)
         {
-            var vm = new PessoaListViewModel(isLookupMode: true);
+            var vm = new PessoaListViewModel(_pessoaService, isLookupMode: true);
             vm.CarregarPessoas(App.PessoaService.CarregarPessoas());
             var view = new PessoaListView { DataContext = vm };
 

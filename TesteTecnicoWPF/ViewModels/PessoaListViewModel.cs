@@ -9,12 +9,15 @@ using System.Windows.Data;
 using System.Windows.Input;
 using TesteTecnicoWPF.Commands;
 using TesteTecnicoWPF.Models;
+using TesteTecnicoWPF.Services;
 using TesteTecnicoWPF.Views;
 
 namespace TesteTecnicoWPF.ViewModels
 {
     public class PessoaListViewModel : INotifyPropertyChanged
     {
+
+        private readonly PessoaService _pessoaService;
         private readonly ObservableCollection<Pessoa> _todasAsPessoas;
         public ICollectionView PessoasView { get; }
 
@@ -75,9 +78,12 @@ namespace TesteTecnicoWPF.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public PessoaListViewModel(bool isLookupMode = false)
+        public PessoaListViewModel(PessoaService pessoaService,bool isLookupMode = false)
         {
+            _pessoaService = pessoaService;
             IsLookupMode = isLookupMode;
+            var pessoasCarregadas = _pessoaService.CarregarPessoas();
+            _todasAsPessoas = new ObservableCollection<Pessoa>(pessoasCarregadas);
             _todasAsPessoas = new ObservableCollection<Pessoa>();
             _todosOsPedidosDoCliente = new ObservableCollection<Pedido>();
             StatusOptions = new List<string> { "Pendente", "Pago", "Enviado", "Recebido" };
@@ -121,6 +127,8 @@ namespace TesteTecnicoWPF.ViewModels
             if (formView.ShowDialog() == true)
             {
                 _todasAsPessoas.Add(novaPessoa);
+
+                _pessoaService.SalvarPessoas(_todasAsPessoas);
             }
         }
 
@@ -152,6 +160,8 @@ namespace TesteTecnicoWPF.ViewModels
                     original.Complemento = copiaPessoa.Complemento;
                     original.Cidade = copiaPessoa.Cidade;
                     original.Estado = copiaPessoa.Estado;
+
+                    _pessoaService.SalvarPessoas(_todasAsPessoas);
                 }
             }
         }
@@ -159,7 +169,7 @@ namespace TesteTecnicoWPF.ViewModels
         private void AbrirFormularioNovoPedido(object obj)
         {
             var novoPedido = new Pedido { PessoaId = PessoaSelecionada.Id };
-            var formViewModel = new PedidoFormViewModel(novoPedido);
+            var formViewModel = new PedidoFormViewModel(novoPedido, App.PessoaService, App.ProdutoService, null);
             formViewModel.ClienteSelecionado = this.PessoaSelecionada;
             var formView = new PedidoFormView { DataContext = formViewModel };
             var dialogWindow = new Window
@@ -252,6 +262,9 @@ namespace TesteTecnicoWPF.ViewModels
             if (MessageBox.Show($"Tem certeza que deseja excluir '{PessoaSelecionada.Nome}'?", "Confirmar Exclusão", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 _todasAsPessoas.Remove(PessoaSelecionada);
+
+                _pessoaService.SalvarPessoas(_todasAsPessoas);
+
             }
         }
 

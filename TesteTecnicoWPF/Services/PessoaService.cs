@@ -27,11 +27,12 @@ namespace TesteTecnicoWPF.Services
             _filePath = Path.Combine(dataDir, "pessoas.json");
         }
 
+
         /// <summary>
         /// Carrega a lista de pessoas do arquivo JSON.
         /// </summary>
         /// <returns>Uma lista de pessoas. Retorna uma lista vazia se o arquivo não existir.</returns>
-        public IEnumerable<Pessoa> CarregarPessoas()
+        public List<Pessoa> CarregarPessoas()
         {
             if (!File.Exists(_filePath))
             {

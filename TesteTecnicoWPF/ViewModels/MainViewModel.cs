@@ -30,13 +30,16 @@ namespace TesteTecnicoWPF.ViewModels
 
         public MainViewModel()
         {
-            PessoaListVM = new PessoaListViewModel();
+            var pessoaService = App.PessoaService;
+            var produtoService = App.ProdutoService;
+
+            PessoaListVM = new PessoaListViewModel(pessoaService);
             PessoaListVM.CarregarPessoas(App.PessoaService.CarregarPessoas());
 
             ProdutoListVM = new ProdutoListViewModel();
             ProdutoListVM.CarregarProdutos(App.ProdutoService.CarregarProdutos());
 
-            PedidoFormVM = new PedidoFormViewModel(new Pedido(), () => { SelectedTabIndex = 0; });
+            PedidoFormVM = new PedidoFormViewModel(new Pedido(), pessoaService, produtoService, () => { SelectedTabIndex = 0; });
         }
     }
 }
