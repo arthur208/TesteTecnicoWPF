@@ -113,8 +113,7 @@ namespace TesteTecnicoWPF.ViewModels
 
         private void AbrirFormularioNovaPessoa(object obj)
         {
-            var proximoId = _todasAsPessoas.Any() ? _todasAsPessoas.Max(p => p.Id) + 1 : 1;
-            var novaPessoa = new Pessoa { Id = proximoId };
+            var novaPessoa = new Pessoa();
             var formViewModel = new PessoaFormViewModel(novaPessoa, _todasAsPessoas);
 
             // 1. Crie a sua janela de formulário
@@ -126,6 +125,12 @@ namespace TesteTecnicoWPF.ViewModels
             // 3. Chame ShowDialog() nela DIRETAMENTE
             if (formView.ShowDialog() == true)
             {
+
+                if (novaPessoa.Id == Guid.Empty)
+                {
+                    novaPessoa.Id = Guid.NewGuid();
+                }
+
                 _todasAsPessoas.Add(novaPessoa);
 
                 _pessoaService.SalvarPessoas(_todasAsPessoas);

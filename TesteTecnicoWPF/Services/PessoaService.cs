@@ -34,11 +34,7 @@ namespace TesteTecnicoWPF.Services
         /// <returns>Uma lista de pessoas. Retorna uma lista vazia se o arquivo não existir.</returns>
         public List<Pessoa> CarregarPessoas()
         {
-            if (!File.Exists(_filePath))
-            {
-                return new List<Pessoa>();
-            }
-
+            if (!File.Exists(_filePath)) return new List<Pessoa>();
             var json = File.ReadAllText(_filePath);
             return JsonConvert.DeserializeObject<List<Pessoa>>(json) ?? new List<Pessoa>();
         }

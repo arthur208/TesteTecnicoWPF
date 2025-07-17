@@ -17,7 +17,8 @@ namespace TesteTecnicoWPF.Models
         }
 
         public int Id { get; set; }
-        public int PessoaId { get; set; }
+
+        public Guid PessoaId { get; set; }
         public ObservableCollection<ItemPedido> Itens { get; set; }
         public decimal ValorTotal => Itens?.Sum(item => item.Subtotal) ?? 0;
         public DateTime DataVenda { get; set; }

@@ -13,14 +13,9 @@ namespace TesteTecnicoWPF.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private int _id;
-        public int Id
-        {
-            get { return _id; }
-            set { _id = value; OnPropertyChanged(); }
-        }
+        public Guid Id { get; set; }
 
-        private string _nome;
+         private string _nome;
         public string Nome
         {
             get { return _nome; }

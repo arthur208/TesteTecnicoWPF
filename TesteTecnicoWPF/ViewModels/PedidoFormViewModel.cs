@@ -32,7 +32,16 @@ namespace TesteTecnicoWPF.ViewModels
         public Pessoa ClienteSelecionado
         {
             get => _clienteSelecionado;
-            set { _clienteSelecionado = value; OnPropertyChanged(); if (PedidoAtual != null) { PedidoAtual.PessoaId = value?.Id ?? 0; } }
+            set
+            {
+                _clienteSelecionado = value;
+                OnPropertyChanged();
+                if (PedidoAtual != null)
+                {
+                   
+                    PedidoAtual.PessoaId = value?.Id ?? Guid.Empty;
+                }
+            }
         }
 
         public ObservableCollection<Pessoa> Clientes { get; private set; }
@@ -96,7 +105,7 @@ namespace TesteTecnicoWPF.ViewModels
 
         private void SalvarPedido(object parameter)
         {
-            if (PedidoAtual.PessoaId == 0)
+            if (PedidoAtual.PessoaId == Guid.Empty)
             {
                 MessageBox.Show("É necessário selecionar um cliente.", "Validação", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
